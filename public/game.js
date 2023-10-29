@@ -10,12 +10,18 @@ export default function createGame() {
 
   const observers = []
 
+  function start(){
+    const frequency = 2000
+
+    setInterval(addFruit, frequency)
+  }
+
   function subscribe(oberverFunction) {
-    state.observers.push(oberverFunction)
+    observers.push(oberverFunction)
   }
 
   function notifyAll(command) {
-    for (const oberserverFunction of state.observers) {
+    for (const oberserverFunction of observers) {
       oberserverFunction(command)
     }
   }
@@ -46,23 +52,39 @@ export default function createGame() {
     const playerId = command.playerId;
 
     delete state.players[playerId];
+    notifyAll({
+      type: 'remove-player', 
+      playerId
+    })
+
   }
 
   function addFruit(command) {
-    const fruitId = command.fruitId;
-    const fruitX = command.fruitX;
-    const fruitY = command.fruitY;
+    const fruitId = command ? command.fruitId : Math.floor(Math.random() * 10000000)
+    const fruitX = command ? command.fruitX : Math.floor(Math.random() * state.screen.width);
+    const fruitY = command ? command.fruitY : Math.floor(Math.random() * state.screen.height);
 
     state.fruits[fruitId] = {
       x: fruitX,
       y: fruitY,
     };
+
+    notifyAll({
+      type: 'add-fruit', 
+      fruitId,
+      fruitX,
+      fruitY
+    })
   }
 
   function removeFruit(command) {
     const fruitId = command.fruitId;
 
     delete state.fruits[fruitId];
+    notifyAll({
+      type: 'remove-fruit', 
+      fruitId
+    })
   }
 
   function checkForFruitCollision(playerId) {
@@ -77,6 +99,8 @@ export default function createGame() {
   }
 
   function movePlayer(command) {
+    notifyAll(command)
+
     const acceptedMoves = {
       ArrowUp(player) {
         if (player.y - 1 >= 0) {
@@ -119,6 +143,7 @@ export default function createGame() {
     movePlayer,
     state,
     setState,
-    subscribe
+    subscribe,
+    start
   };
 }

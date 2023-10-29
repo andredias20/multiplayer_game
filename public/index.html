@@ -39,10 +39,7 @@
       })
 
       socket.on('setup', (state) =>{
-        console.log(`Reciving "setup" event from server"`)
-        
-        //TODO: Prove of concept, reimplement
-
+        game.setState(state)
       })
     </script>
   </body>

@@ -1,2 +1,2 @@
-# snake_game
+# multiplayer_game
 Generic game 

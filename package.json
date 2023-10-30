@@ -2,10 +2,10 @@
   "name": "snake_game",
   "version": "1.0.0",
   "description": "Generic game",
-  "main": "backend/server.js",
+  "main": "server.js",
   "type": "module",
   "scripts": {
-    "start": "nodemon ./backend/server.js"
+    "start": "nodemon server.js"
   },
   "author": "",
   "license": "ISC",

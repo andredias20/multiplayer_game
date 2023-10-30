@@ -1,6 +1,6 @@
 import express from 'express'
 import http from 'http'
-import createGame from './public/game.js'
+import createGame from './backend/game.js'
 import { Server } from "socket.io";
 
 const app = express()
